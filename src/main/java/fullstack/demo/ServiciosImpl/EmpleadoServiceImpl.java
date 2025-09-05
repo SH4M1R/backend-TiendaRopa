@@ -1,15 +1,17 @@
-package fullstack.demo.Servicios;
+package fullstack.demo.ServiciosImpl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import fullstack.demo.DAO.EmpleadoDAO;
 import fullstack.demo.Entidad.Empleado;
+import fullstack.demo.Servicios.EmpleadoService;
 
 @Service
 public class EmpleadoServiceImpl implements EmpleadoService {
 
-    @Autowired EmpleadoDAO empleadoDAO;
+    @Autowired 
+    private EmpleadoDAO empleadoDAO;
 
     @Override
     public Empleado crearEmpleado(Empleado Empleado) {return empleadoDAO.save(Empleado);}
