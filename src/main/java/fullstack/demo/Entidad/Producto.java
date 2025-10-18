@@ -17,9 +17,9 @@ public class Producto {
     private BigDecimal PrecioCompra;
     private BigDecimal PrecioVenta;
     private Integer Stock;
-    private String Descripcion;
     private String Talla;
     private String Color;
+    private String Foto;
     private Boolean Genero;  
 
     @ManyToOne
