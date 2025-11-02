@@ -28,5 +28,4 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public void eliminarProducto(Integer idProducto) {productoDAO.deleteById(idProducto);}  
 
-
 }

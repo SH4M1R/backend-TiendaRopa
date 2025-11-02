@@ -1,10 +1,8 @@
 package fullstack.demo.ServiciosImpl;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import fullstack.demo.DAO.CategoriaDAO;
 import fullstack.demo.Entidad.Categoria;
 import fullstack.demo.Servicios.CategoriaService;

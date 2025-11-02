@@ -10,21 +10,21 @@ import java.util.List;
 @Service
 public class RolServiceImpl implements RolService {
 
-    @Autowired private RolDAO rolDAO;
+    @Autowired
+    private RolDAO rolDAO;
 
     @Override
-    public List<Rol> ListarRoles() { return rolDAO.findAll();}
+    public List<Rol> listarRoles() {return rolDAO.findAll();}
 
     @Override
-    public Rol crearRol(Rol rol) { return rolDAO.save(rol);}
+    public Rol obtenerRolPorId(Integer idRol) {return rolDAO.findById(idRol).get();}
 
     @Override
-    public Rol obtenerRolPorId(Integer idRol) { return rolDAO.findById(idRol).get();} 
+    public Rol crearRol(Rol rol) {return rolDAO.save(rol);}
 
     @Override
-    public Rol actualizarRol(Rol rol) { return rolDAO.save(rol);}   
+    public Rol actualizarRol(Rol rol) {return rolDAO.save(rol);}
 
     @Override
-    public void eliminarRol(Integer idRol) { rolDAO.deleteById(idRol); }    
-
+    public void eliminarRol(Integer idRol) { rolDAO.deleteById(idRol);}
 }

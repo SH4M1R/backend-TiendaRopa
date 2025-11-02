@@ -27,4 +27,13 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
     @Override
     public void eliminarEmpleado(Integer idEmpleado) {empleadoDAO.deleteById(idEmpleado);}
+
+    @Override
+    public Empleado autenticarEmpleado(String username, String contrasena) {
+        Empleado empleado = empleadoDAO.findByUsername(username).orElse(null);
+        if (empleado != null && empleado.getContrasena().equals(contrasena)) {
+            return empleado;
+        }
+        return null;
+    }
 }

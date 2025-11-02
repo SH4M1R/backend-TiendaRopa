@@ -2,7 +2,9 @@ package fullstack.demo.RestControl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import fullstack.demo.Entidad.Categoria;
 import fullstack.demo.Entidad.Producto;
+import fullstack.demo.Servicios.CategoriaService;
 import fullstack.demo.Servicios.ProductoService;
 import java.util.List;
 
@@ -13,6 +15,9 @@ public class ProductoControlador {
 
     @Autowired
     private ProductoService productoService;
+
+    @Autowired
+    private CategoriaService categoriaService;
 
     @GetMapping
     public List<Producto> listarProductos() {
@@ -26,11 +31,15 @@ public class ProductoControlador {
 
     @PostMapping
     public Producto crearProducto(@RequestBody Producto producto) {
+        Categoria categoria = categoriaService.obtenerCategoriaPorId(producto.getCategoria().getIdCategoria());
+        producto.setCategoria(categoria);
         return productoService.crearProducto(producto);
     }
 
     @PutMapping("/{id}")
     public Producto actualizarProducto(@PathVariable Integer id, @RequestBody Producto producto) {
+        Categoria categoria = categoriaService.obtenerCategoriaPorId(producto.getCategoria().getIdCategoria());
+        producto.setCategoria(categoria);
         producto.setIdProducto(id);
         return productoService.actualizarProducto(producto);
     }

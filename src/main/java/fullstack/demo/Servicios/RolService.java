@@ -4,10 +4,9 @@ import fullstack.demo.Entidad.Rol;
 import java.util.List;
 
 public interface RolService {
-    List<Rol> ListarRoles();
+    List<Rol> listarRoles();
     Rol crearRol(Rol rol);
     Rol obtenerRolPorId(Integer idRol);
     Rol actualizarRol(Rol rol);
     void eliminarRol(Integer idRol);
-
 }

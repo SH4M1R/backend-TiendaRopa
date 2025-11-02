@@ -9,4 +9,5 @@ public interface EmpleadoService {
     Empleado obtenerEmpleadoPorId(Integer idEmpleado);
     Empleado actualizarEmpleado(Empleado empleado);
     void eliminarEmpleado(Integer idEmpleado);
+    Empleado autenticarEmpleado(String usuario, String contrasena);
 }

@@ -1,5 +1,6 @@
 package fullstack.demo.Entidad;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,12 +11,12 @@ public class Empleado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idEmpleado;
-
-    private String nombre;
-    private String credenciales;
+    private String user;
+    private String username;
     private String contrasena;
 
     @ManyToOne
     @JoinColumn(name = "Rol_idRol")
+    @JsonIgnoreProperties("empleados")
     private Rol rol;
 }

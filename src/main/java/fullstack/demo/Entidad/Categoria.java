@@ -1,6 +1,7 @@
 package fullstack.demo.Entidad;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,5 +18,6 @@ public class Categoria {
     private String categoria;
 
     @OneToMany(mappedBy = "categoria")
+    @JsonIgnoreProperties("categoria")
     private List<Producto> productos;
 }
