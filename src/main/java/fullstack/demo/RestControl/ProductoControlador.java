@@ -1,11 +1,11 @@
 package fullstack.demo.RestControl;
 
+import fullstack.demo.Entidad.Producto;
+import fullstack.demo.Servicios.ProductoService;
+import fullstack.demo.Servicios.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import fullstack.demo.Entidad.Categoria;
-import fullstack.demo.Entidad.Producto;
-import fullstack.demo.Servicios.CategoriaService;
-import fullstack.demo.Servicios.ProductoService;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
@@ -17,30 +17,39 @@ public class ProductoControlador {
     private ProductoService productoService;
 
     @Autowired
-    private CategoriaService categoriaService;
+    private UploadService uploadService;
 
     @GetMapping
-    public List<Producto> listarProductos() {
-        return productoService.listarProductos();
-    }
+    public List<Producto> listarProductos() { return productoService.listarProductos(); }
 
     @GetMapping("/{id}")
-    public Producto obtenerProducto(@PathVariable Integer id) {
-        return productoService.obtenerProductoPorId(id);
-    }
+    public Producto obtenerProductoPorId(@PathVariable Integer id) { return productoService.obtenerProductoPorId(id);}
 
-    @PostMapping
-    public Producto crearProducto(@RequestBody Producto producto) {
-        Categoria categoria = categoriaService.obtenerCategoriaPorId(producto.getCategoria().getIdCategoria());
-        producto.setCategoria(categoria);
+    @PostMapping(consumes = {"multipart/form-data"})
+    public Producto crearProducto(
+            @RequestPart("producto") Producto producto,
+            @RequestPart(value = "imagen", required = false) MultipartFile imagen
+    ) {
+        if (imagen != null && !imagen.isEmpty()) {
+            String urlImagen = uploadService.saveUpload(imagen);
+            producto.setImagen(urlImagen);
+        }
         return productoService.crearProducto(producto);
     }
 
-    @PutMapping("/{id}")
-    public Producto actualizarProducto(@PathVariable Integer id, @RequestBody Producto producto) {
-        Categoria categoria = categoriaService.obtenerCategoriaPorId(producto.getCategoria().getIdCategoria());
-        producto.setCategoria(categoria);
+    @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
+    public Producto actualizarProducto(
+            @PathVariable Integer id,
+            @RequestPart("producto") Producto producto,
+            @RequestPart(value = "imagen", required = false) MultipartFile imagen
+    ) {
         producto.setIdProducto(id);
+
+        if (imagen != null && !imagen.isEmpty()) {
+            String urlImagen = uploadService.saveUpload(imagen);
+            producto.setImagen(urlImagen);
+        }
+
         return productoService.actualizarProducto(producto);
     }
 
