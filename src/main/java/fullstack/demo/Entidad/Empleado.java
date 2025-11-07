@@ -3,6 +3,7 @@ package fullstack.demo.Entidad;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -18,5 +19,6 @@ public class Empleado {
     @ManyToOne
     @JoinColumn(name = "Rol_idRol")
     @JsonIgnoreProperties("empleados")
+    @ToString.Exclude
     private Rol rol;
 }

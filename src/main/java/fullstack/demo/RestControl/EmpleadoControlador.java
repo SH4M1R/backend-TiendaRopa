@@ -49,18 +49,4 @@ public class EmpleadoControlador {
     public void eliminarEmpleado(@PathVariable Integer id) {
         empleadoService.eliminarEmpleado(id);
     }
-
-    @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
-        Empleado empleadoAutenticado = empleadoService.autenticarEmpleado(
-            loginDTO.getUsername(), loginDTO.getContrasena()
-        );
-        if (empleadoAutenticado == null) {
-            Map<String, String> error = new HashMap<>();
-            error.put("message", "Usuario o contraseña incorrectos.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-        }
-        empleadoAutenticado.setContrasena(null); 
-        return ResponseEntity.ok(empleadoAutenticado);
-    }
 }
