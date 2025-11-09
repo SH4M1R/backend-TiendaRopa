@@ -2,8 +2,12 @@ package fullstack.demo.Entidad;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.math.BigDecimal;
+@Getter
+@Setter
 @Entity
 @Data
 @Table(name = "DetalleVenta")

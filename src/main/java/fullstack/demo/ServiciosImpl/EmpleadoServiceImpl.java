@@ -31,6 +31,7 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     @Override
     public Empleado autenticarEmpleado(String username, String contrasena) {
         Empleado empleado = empleadoDAO.findByUsername(username).orElse(null);
+        System.out.println("Empleado encontrado: " + empleado);
         if (empleado != null && empleado.getContrasena().equals(contrasena)) {
             return empleado;
         }

@@ -6,4 +6,5 @@ import fullstack.demo.Entidad.Rol;
 
 public interface RolDAO extends JpaRepository <Rol, Integer>{
 
+
 }
