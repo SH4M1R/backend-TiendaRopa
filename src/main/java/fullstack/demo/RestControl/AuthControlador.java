@@ -1,96 +1,137 @@
-package fullstack.demo.RestControl;
-
-
-import fullstack.demo.Entidad.Usuario;
-import fullstack.demo.Servicios.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
-
-@CrossOrigin(origins = "http://localhost:7500")
-@RestController
-@RequestMapping("/api/auth")
-public class AuthControlador{
-
-    @Autowired private AuthService authService;
-
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Usuario user) {
-        try {
-            authService.registrar(user);
-            return ResponseEntity.ok("Usuario registrado. Revisa tu correo para el código de verificación.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Error en el registro: " + e.getMessage());
-        }
-    }
-
-    @PostMapping("/verify")
-    public ResponseEntity<String> verify(@RequestParam String email, @RequestParam String codigo) {
-        boolean ok = authService.verificar(email, codigo);
-        return ok ? ResponseEntity.ok("Cuenta verificada con éxito.")
-                : ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Código inválido o expirado.");
-    }
-}
-
-
 //package fullstack.demo.RestControl;
+//
 //import fullstack.demo.Configuracion.JwtUtil;
 //import fullstack.demo.DTO.LoginDTO;
-//import fullstack.demo.DTO.UsuarioDTO;
+//import fullstack.demo.DTO.RegisterDTO;
+//import fullstack.demo.DTO.VerifyDTO;
 //import fullstack.demo.Entidad.Empleado;
 //import fullstack.demo.Entidad.Usuario;
-//import fullstack.demo.Servicios.*;
-//// OtpService removed for now (2FA omitted)
-//// import fullstack.demo.DAO.UsuarioDAO;
-//// import fullstack.demo.Entidad.Usuario;
+//import fullstack.demo.Servicios.EmpleadoService;
+//import fullstack.demo.Servicios.UsuarioService;
+//import fullstack.demo.Servicios.VerificacionService;
+//
 //import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
+//import org.springframework.http.*;
 //import org.springframework.web.bind.annotation.*;
-//import java.util.*;
 //
+//import java.util.Map;
 //
+//@CrossOrigin(origins = "http://localhost:7500") // Cambiado a 3000 para React
 //@RestController
 //@RequestMapping("/api/auth")
-//@CrossOrigin(origins = "http://localhost:7500")
 //public class AuthControlador {
 //
-//    @Autowired private EmpleadoService empleadoService;
-//    @Autowired private UsuarioService usuarioService;
-//    @Autowired private JwtUtil jwtUtil;
-//    @Autowired private OtpService otpService;
-//    @Autowired private EmailService emailService;
-//    @Autowired private SmsService smsService;
+//    @Autowired
+//    private UsuarioService usuarioService;
 //
+//    @Autowired
+//    private EmpleadoService empleadoService;
+//
+//    @Autowired
+//    private VerificacionService verificacionService;
+//
+//    @Autowired
+//    private JwtUtil jwtUtil;
+//
+//    // ===========================
+//    // REGISTRO DE USUARIO
+//    // ===========================
+//    @PostMapping("/register")
+//    public ResponseEntity<?> register(@RequestBody RegisterDTO registerDTO) {
+//        try {
+//            usuarioService.registrarUsuario(registerDTO);
+//            return ResponseEntity.ok("Usuario registrado. Verifica tu email para activar tu cuenta.");
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Error al registrar usuario: " + e.getMessage());
+//        }
+//    }
+//
+//    // ===========================
+//    // VERIFICAR CÓDIGO
+//    // ===========================
+//    @PostMapping("/verificar")
+//    public ResponseEntity<?> verificar(@RequestBody VerifyDTO verifyDTO) {
+//        try {
+//            String email = verifyDTO.getIdentificador();
+//            String codigo = verifyDTO.getCodigo();
+//
+//            boolean valido = verificacionService.verificarCodigo(email, codigo);
+//
+//            if (valido) {
+//                return ResponseEntity.ok("Verificación exitosa");
+//            } else {
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                        .body("Código inválido o expirado");
+//            }
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Error al verificar código: " + e.getMessage());
+//        }
+//    }
+//
+//    // ===========================
+//    // REENVIAR CÓDIGO
+//    // ===========================
+//    @PostMapping("/reenviar-codigo")
+//    public ResponseEntity<?> reenviarCodigo(@RequestBody Map<String, String> body) {
+//        try {
+//            String email = body.get("identificador");
+//
+//            if (email == null || email.isEmpty()) {
+//                return ResponseEntity.badRequest().body("Email no proporcionado");
+//            }
+//
+//            verificacionService.enviarCodigo(email);
+//            return ResponseEntity.ok("Código reenviado exitosamente");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Error al reenviar código: " + e.getMessage());
+//        }
+//    }
+//
+//    // ===========================
+//    // LOGIN
+//    // ===========================
 //    @PostMapping("/login")
 //    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
 //        // Primero intentar autenticar como empleado
-//        Empleado empleado = empleadoService.autenticarEmpleado(loginDTO.getUsername(), loginDTO.getContrasena());
-//
-//        if (empleado != null) {
-//            // Login exitoso como empleado
-//            Map<String, Object> claims = Map.of(
-//                    "rol", empleado.getRol().getRol(),
-//                    "idEmpleado", empleado.getIdEmpleado(),
-//                    "tipo", "empleado"
+//        try {
+//            Empleado empleado = empleadoService.autenticarEmpleado(
+//                    loginDTO.getUsername(),
+//                    loginDTO.getContrasena()
 //            );
 //
-//            String token = jwtUtil.generarToken(empleado.getUsername(), claims);
+//            if (empleado != null) {
+//                // Login exitoso como empleado
+//                Map<String, Object> claims = Map.of(
+//                        "rol", empleado.getRol().getRol(),
+//                        "idEmpleado", empleado.getIdEmpleado(),
+//                        "tipo", "empleado"
+//                );
 //
-//            return ResponseEntity.ok(Map.of(
-//                    "idEmpleado", empleado.getIdEmpleado(),
-//                    "rol", empleado.getRol().getRol(),
-//                    "username", empleado.getUsername(),
-//                    "token", token,
-//                    "tipo", "empleado"
-//            ));
+//                String token = jwtUtil.generarToken(empleado.getUsername(), claims);
+//
+//                return ResponseEntity.ok(Map.of(
+//                        "idEmpleado", empleado.getIdEmpleado(),
+//                        "rol", empleado.getRol().getRol(),
+//                        "username", empleado.getUsername(),
+//                        "token", token,
+//                        "tipo", "empleado"
+//                ));
+//            }
+//        } catch (Exception e) {
+//            // Continuar para intentar como usuario
 //        }
 //
 //        // Si no es empleado, intentar autenticar como usuario
 //        try {
-//            Usuario usuario = usuarioService.autenticarUsuario(loginDTO.getUsername(), loginDTO.getContrasena());
+//            Usuario usuario = usuarioService.autenticarUsuario(
+//                    loginDTO.getUsername(),
+//                    loginDTO.getContrasena()
+//            );
 //
 //            if (usuario != null) {
 //                // Verificar si la cuenta está verificada
@@ -120,161 +161,180 @@ public class AuthControlador{
 //                ));
 //            }
 //
-//            // Si no es ni empleado ni usuario
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                    .body("Credenciales inválidas");
+//
 //        } catch (RuntimeException e) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-//        }
-//    }
-//
-//    @PostMapping("/register")
-//    public ResponseEntity<?> registrarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-//        try {
-//            // Registrar usuario (sin verificar aún)
-//            Usuario usuario = usuarioService.registrarUsuario(usuarioDTO);
-//
-//            // Generar código OTP
-//            String codigo = otpService.generarOTP();
-//
-//            // Determinar método de verificación (siempre email por ahora)
-//            String metodo = "email";
-//
-//            // Almacenar OTP y enviar por email
-//            otpService.almacenarOTP(usuario.getEmail(), codigo);
-//            emailService.enviarCodigoVerificacion(usuario.getEmail(), codigo);
-//
-//            // Retornar JSON con los datos necesarios
-//            Map<String, Object> response = new HashMap<>();
-//            response.put("mensaje", "Usuario registrado. Código enviado por email");
-//            response.put("metodo", "email");
-//            response.put("identificador", usuario.getEmail());
-//            response.put("idUsuario", usuario.getIdUsuario());
-//
-//            return ResponseEntity.ok(response);
-//
-//        } catch (Exception e) {
-//            Map<String, Object> errorResponse = new HashMap<>();
-//            errorResponse.put("error", e.getMessage());
-//            return ResponseEntity.badRequest().body(errorResponse);
-//        }
-//    }
-//
-//    @PostMapping("/verificar")
-//    public ResponseEntity<?> verificarCuenta(@RequestBody VerificacionDTO verificacionDTO) {
-//        try {
-//            // Verificar el código OTP
-//            boolean esValido = otpService.verificarOTP(
-//                    verificacionDTO.getIdentificador(),
-//                    verificacionDTO.getCodigo()
-//            );
-//
-//            if (!esValido) {
-//                return ResponseEntity.badRequest().body("Código inválido o expirado");
-//            }
-//
-//            // Marcar usuario como verificado
-//            Usuario usuario;
-//            if ("email".equalsIgnoreCase(verificacionDTO.getMetodo())) {
-//                usuario = usuarioService.obtenerUsuarioPorEmail(verificacionDTO.getIdentificador());
-//            } else {
-//                usuario = usuarioService.obtenerUsuarioPorTelefono(verificacionDTO.getIdentificador());
-//            }
-//
-//            if (usuario == null) {
-//                return ResponseEntity.badRequest().body("Usuario no encontrado");
-//            }
-//
-//            usuarioService.verificarUsuario(usuario.getIdUsuario());
-//
-//            // Enviar email de bienvenida
-//            emailService.enviarEmailBienvenida(
-//                    usuario.getEmail(),
-//                    usuario.getNombres() + " " + usuario.getApellidos()
-//            );
-//
-//            return ResponseEntity.ok(Map.of(
-//                    "mensaje", "Cuenta verificada exitosamente",
-//                    "username", usuario.getUsername()
-//            ));
-//
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-//        }
-//    }
-//
-//    @PostMapping("/reenviar-codigo")
-//    public ResponseEntity<?> reenviarCodigo(@RequestBody Map<String, String> datos) {
-//        try {
-//            String identificador = datos.get("identificador");
-//            String metodo = datos.get("metodo");
-//
-//            if (identificador == null || metodo == null) {
-//                return ResponseEntity.badRequest().body("Faltan datos: identificador o metodo");
-//            }
-//
-//            // Generar nuevo código
-//            String codigo = otpService.generarOTP();
-//            otpService.almacenarOTP(identificador, codigo);
-//
-//            // Enviar según el método
-//            if ("sms".equalsIgnoreCase(metodo)) {
-//                smsService.enviarCodigoVerificacion(identificador, codigo);
-//            } else {
-//                emailService.enviarCodigoVerificacion(identificador, codigo);
-//            }
-//
-//            return ResponseEntity.ok(Map.of(
-//                    "mensaje", "Código reenviado exitosamente"
-//            ));
-//
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                    .body(e.getMessage());
 //        }
 //    }
 //}
-//package fullstack.demo.RestControl;
-//
-//import fullstack.demo.Entidad.Usuario;
-//import fullstack.demo.ServiciosImpl.AuthServiceImpl;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import jakarta.mail.MessagingException;
-//import java.util.Map;
-//
-//@RestController
-//@RequestMapping("/api/auth")
-//@CrossOrigin(origins = "*")
-//@RequiredArgsConstructor
-//public class AuthControlador {
-//
-//    private final AuthServiceImpl authService;
-//
-//    @PostMapping("/register")
-//    public ResponseEntity<?> register(@RequestBody Usuario usuario) throws MessagingException {
-//        authService.registrarUsuario(usuario);
-//        return ResponseEntity.ok(Map.of("mensaje", "Usuario registrado. Código enviado al email."));
-//    }
-//
-//    @PostMapping("/verificar")
-//    public ResponseEntity<?> verificar(@RequestBody Map<String, String> body) {
-//        String identificador = body.get("identificador");
-//        String codigo = body.get("codigo");
-//
-//        boolean exito = authService.verificarCodigo(identificador, codigo);
-//        if (exito)
-//            return ResponseEntity.ok(Map.of("mensaje", "Cuenta verificada correctamente"));
-//        else
-//            return ResponseEntity.badRequest().body(Map.of("error", "Código inválido o expirado"));
-//    }
-//
-//    @PostMapping("/reenviar-codigo")
-//    public ResponseEntity<?> reenviarCodigo(@RequestBody Map<String, String> body) throws MessagingException {
-//        String email = body.get("identificador");
-//        authService.reenviarCodigo(email);
-//        return ResponseEntity.ok(Map.of("mensaje", "Código reenviado"));
-//    }
-//}
+package fullstack.demo.RestControl;
 
+import fullstack.demo.DTO.LoginDTO;
+import fullstack.demo.DTO.RegisterDTO;
+import fullstack.demo.DTO.VerifyDTO;
+import fullstack.demo.Entidad.Empleado;
+import fullstack.demo.Entidad.Usuario;
+import fullstack.demo.Servicios.*;
+import fullstack.demo.Configuracion.JwtUtil;
+import jakarta.mail.MessagingException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import java.util.Map;
+
+@CrossOrigin(origins = "http://localhost:7500") // React
+@RestController
+@RequestMapping("/api/auth")
+public class AuthControlador {
+
+    @Autowired
+    private AuthService authService; // ✅ Nuevo servicio de autenticación con 2FA
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private EmpleadoService empleadoService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    // ===========================
+    // REGISTRO CON ENVÍO DE CÓDIGO
+    // ===========================
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterDTO registerDTO) {
+        try {
+            authService.registrarUsuario(registerDTO);
+            return ResponseEntity.ok("Usuario registrado. Verifica tu email para activar tu cuenta.");
+        } catch (MessagingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al enviar correo: " + e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error general en el registro: " + e.getMessage());
+        }
+    }
+
+    // ===========================
+    // VERIFICAR CÓDIGO OTP
+    // ===========================
+    @PostMapping("/verificar")
+    public ResponseEntity<?> verificar(@RequestBody VerifyDTO verifyDTO) {
+        try {
+            boolean valido = authService.verificarCodigo(
+                    verifyDTO.getIdentificador(),
+                    verifyDTO.getCodigo(),
+                    verifyDTO.getMetodo()
+            );
+
+            if (valido) {
+                return ResponseEntity.ok("Cuenta verificada correctamente");
+            } else {
+                return ResponseEntity.badRequest().body("Código inválido o expirado");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al verificar código: " + e.getMessage());
+        }
+    }
+
+    // ===========================
+    // REENVIAR CÓDIGO
+    // ===========================
+    @PostMapping("/reenviar-codigo")
+    public ResponseEntity<?> reenviarCodigo(@RequestBody Map<String, String> body) {
+        try {
+            String identificador = body.get("identificador");
+            String metodo = body.get("metodo");
+
+            if (identificador == null || metodo == null) {
+                return ResponseEntity.badRequest().body("Datos incompletos");
+            }
+
+            authService.reenviarCodigo(identificador, metodo);
+            return ResponseEntity.ok("Código reenviado exitosamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al reenviar código: " + e.getMessage());
+        }
+    }
+
+    // ===========================
+    // LOGIN (Empleado o Usuario)
+    // ===========================
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
+        // Intentar login de empleado
+        try {
+            Empleado empleado = empleadoService.autenticarEmpleado(
+                    loginDTO.getUsername(),
+                    loginDTO.getContrasena()
+            );
+
+            if (empleado != null) {
+                Map<String, Object> claims = Map.of(
+                        "rol", empleado.getRol().getRol(),
+                        "idEmpleado", empleado.getIdEmpleado(),
+                        "tipo", "empleado"
+                );
+                String token = jwtUtil.generarToken(empleado.getUsername(), claims);
+
+                return ResponseEntity.ok(Map.of(
+                        "idEmpleado", empleado.getIdEmpleado(),
+                        "rol", empleado.getRol().getRol(),
+                        "username", empleado.getUsername(),
+                        "token", token,
+                        "tipo", "empleado"
+                ));
+            }
+        } catch (Exception ignored) { }
+
+        // Intentar login de usuario
+        try {
+            Usuario usuario = usuarioService.autenticarUsuario(
+                    loginDTO.getUsername(),
+                    loginDTO.getContrasena()
+            );
+
+            if (usuario != null) {
+                if (!usuario.getVerificado()) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                            .body("Cuenta no verificada. Verifica tu correo.");
+                }
+
+                Map<String, Object> claims = Map.of(
+                        "rol", "USUARIO",
+                        "idUsuario", usuario.getIdUsuario(),
+                        "tipo", "usuario"
+                );
+
+                String token = jwtUtil.generarToken(usuario.getUsername(), claims);
+
+                return ResponseEntity.ok(Map.of(
+                        "idUsuario", usuario.getIdUsuario(),
+                        "rol", "USUARIO",
+                        "username", usuario.getUsername(),
+                        "nombres", usuario.getNombres(),
+                        "apellidos", usuario.getApellidos(),
+                        "email", usuario.getEmail(),
+                        "token", token,
+                        "tipo", "usuario"
+                ));
+            }
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Credenciales inválidas");
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(e.getMessage());
+        }
+    }
+}
 

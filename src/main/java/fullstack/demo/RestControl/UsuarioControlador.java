@@ -1,6 +1,7 @@
 package fullstack.demo.RestControl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import fullstack.demo.DAO.UsuarioDAO;
 import fullstack.demo.Entidad.Usuario;
@@ -24,8 +25,16 @@ public class UsuarioControlador {
         return usuarioDAO.findAll();
     }
 
+
     @GetMapping("/{id}")
-    public Usuario obtenerUsuario(@PathVariable Integer id) {
-        return usuarioDAO.findById(id).orElse(null);
+    public ResponseEntity<?> obtenerUsuario(@PathVariable Long id) {
+        return usuarioDAO.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
+
+//    @GetMapping("/{id}")
+//    public Usuario obtenerUsuario(@PathVariable Integer id) {
+//        return usuarioDAO.findById(id).orElse(null);
+//    }
 }

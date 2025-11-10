@@ -1,40 +1,61 @@
 package fullstack.demo.ServiciosImpl;
 
-
-
-// import fullstack.demo.DAO.CodigoDAO;
-import fullstack.demo.DAO.UsuarioDAO;
+import fullstack.demo.DTO.RegisterDTO;
 import fullstack.demo.Entidad.Usuario;
+import fullstack.demo.DAO.UsuarioDAO;
 import fullstack.demo.Servicios.AuthService;
+import fullstack.demo.Servicios.VerificacionService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl extends AuthService {
+public class AuthServiceImpl implements AuthService {
 
     private final UsuarioDAO usuarioDAO;
-    // private final CodigoDAO codigoDAO;
-    private final EmailServiceImpl emailService;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//    private final EmailService emailService;
+    private final VerificacionService verificacionService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void registrarUsuario(Usuario usuario) throws MessagingException {
-        usuario.setContrasena(encoder.encode(usuario.getContrasena()));
-        usuario.setVerificado(false);
-        usuarioDAO.save(usuario);
-
-        emailService.generarYEnviarCodigo(usuario.getEmail());
+    public String registrarUsuario(Usuario usuario) throws MessagingException {
+        return "";
     }
 
     @Override
-    public boolean verificarCodigo(String identificador, String codigo) {
+    public void registrarUsuario(RegisterDTO registerDTO) {
+        if (usuarioDAO.findByUsername(registerDTO.getUsername()).isPresent()) {
+            throw new RuntimeException("El nombre de usuario ya existe");
+        }
+
+        if (usuarioDAO.findByEmail(registerDTO.getEmail()).isPresent()) {
+            throw new RuntimeException("El email ya está registrado");
+        }
+
+        Usuario usuario = new Usuario();
+        usuario.setUsername(registerDTO.getUsername());
+        usuario.setContrasena(passwordEncoder.encode(registerDTO.getContrasena()));
+        usuario.setEmail(registerDTO.getEmail());
+        usuario.setNombres(registerDTO.getNombres());
+        usuario.setApellidos(registerDTO.getApellidos());
+        usuario.setVerificado(false);
+
+        usuarioDAO.save(usuario);
+
+        // Genera y envía el código
+        verificacionService.enviarCodigo(registerDTO.getEmail());
+    }
+
+    @Override
+    public boolean verificarCodigo(String identificador, String codigo, String metodo) {
         return false;
     }
 
-    public void reenviarCodigo(String email) {
+    @Override
+    public void reenviarCodigo(String identificador, String metodo) throws MessagingException {
+
     }
 }
 
