@@ -1,3 +1,4 @@
+
 package fullstack.demo.ServiciosImpl;
 
 import fullstack.demo.DTO.RegisterDTO;
@@ -7,6 +8,7 @@ import fullstack.demo.Servicios.AuthService;
 import fullstack.demo.Servicios.VerificacionService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final UsuarioDAO usuarioDAO;
-//    private final EmailService emailService;
+    //    private final EmailService emailService;
     private final VerificacionService verificacionService;
     private final PasswordEncoder passwordEncoder;
 
@@ -24,6 +26,7 @@ public class AuthServiceImpl implements AuthService {
         return "";
     }
 
+    @SneakyThrows
     @Override
     public void registrarUsuario(RegisterDTO registerDTO) {
         if (usuarioDAO.findByUsername(registerDTO.getUsername()).isPresent()) {
@@ -58,4 +61,3 @@ public class AuthServiceImpl implements AuthService {
 
     }
 }
-

@@ -51,5 +51,10 @@ public class EmailServiceImpl implements EmailService {
 
         return codigo;
     }
+
+    @Override
+    public void enviarCorreoCodigo(String email, String codigo) {
+
+    }
 }
 

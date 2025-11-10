@@ -3,6 +3,7 @@ package fullstack.demo.Servicios;
 import fullstack.demo.DAO.UsuarioDAO;
 import fullstack.demo.DTO.RegisterDTO;
 import fullstack.demo.Entidad.Usuario;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class UsuarioService {
     @Autowired
     private VerificacionService verificacionService;
 
-    public Usuario registrarUsuario(RegisterDTO dto) {
+    public Usuario registrarUsuario(RegisterDTO dto) throws MessagingException {
         // Validar si ya existe
         if (usuarioDAO.existsByUsername(dto.getUsername())) {
             throw new RuntimeException("El nombre de usuario ya está en uso");

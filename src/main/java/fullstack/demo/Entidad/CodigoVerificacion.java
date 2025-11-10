@@ -27,6 +27,9 @@ public class CodigoVerificacion {
 
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
+
+    public void setId(String email) {
+    }
 }
 
 //package fullstack.demo.Entidad;
