@@ -1,10 +1,6 @@
 package fullstack.demo.Entidad;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,4 +19,11 @@ public class Usuario {
     private String correo;
     private String direccion;
     private String contrasena;
+    private String telefono;
+    private String avatarUrl;
+    private Boolean activo = true;
+
+    // Campos para configuración de tema
+    private String temaPreferido = "claro";
+    private String idioma = "es";
 }

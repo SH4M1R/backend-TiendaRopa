@@ -1,13 +1,8 @@
 package fullstack.demo.Entidad;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,20 +11,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Compra")
+@Table(name = "compra")
 public class Compra {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_compra")
     private Integer idCompra;
 
+    @Column(name = "fecha_compra")
     private LocalDateTime fechaCompra;
+    
     private BigDecimal total;
 
     @ManyToOne
-    @JoinColumn(name = "Proveedor_idProveedor", nullable = false)
+    @JoinColumn(name = "proveedor_id_proveedor", nullable = false)
     private Proveedor proveedor;
 
     @ManyToOne
-    @JoinColumn(name = "Empleado_idEmpleado", nullable = false)
+    @JoinColumn(name = "empleado_id_empleado", nullable = false)
     private Empleado empleado;
 }
