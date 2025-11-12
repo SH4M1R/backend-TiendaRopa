@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         // Convierte tu entidad Usuario en un objeto User de Spring Security
         return User.builder()
                 .username(usuario.getEmail()) // o usuario.getUsername() si usas nombre de usuario
-                .password(usuario.getContrasena()) // debe estar encriptada
+                .password(usuario.getPassword()) // debe estar encriptada
                 .roles("USER") // o los roles que correspondan
                 .build();
     }

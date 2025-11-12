@@ -29,28 +29,26 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                // Deshabilitar CSRF (no se usa en APIs REST)
-                .csrf(csrf -> csrf.disable())
-
-                // Configurar CORS (manteniendo tu configuración existente)
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
-                // No mantener sesiones (JWT = stateless)
+                .csrf(csrf -> csrf.disable()) // ⚠️ desactivamos CSRF para pruebas con frontend
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                // Permitir login sin token, todo lo demás requiere autenticación
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
+                        // rutas públicas
+                        .requestMatchers(
+                                "/api/auth/register",
+                                "/api/auth/login",
+                                "/api/auth/verificar",
+                                "/api/auth/reenviar-codigo"
+                        ).permitAll()
+                        // cualquier otra ruta requiere autenticación
                         .anyRequest().authenticated()
-                )
+                );
 
-                // Agregar el filtro JWT antes del de usuario/contraseña
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-
-                .build();
+        return http.build();
     }
 
     @Bean

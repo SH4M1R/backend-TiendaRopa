@@ -1,88 +1,35 @@
 package fullstack.demo.Entidad;
 
-import jakarta.persistence.*;
-import lombok.Data;
-import java.time.LocalDateTime;
 
-@Data
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "usuarios")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_usuario")
-    private Long idUsuario;
+    private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String username;
-
-    @Column(nullable = false)
-    private String nombres;
-
-    @Column(nullable = false)
-    private String apellidos;
 
     @Column(nullable = false)
     private String email;
 
-    private String telefono;
-
     @Column(nullable = false)
-    private String contrasena;
+    private String password;
 
-    @Column(name = "metodo_2fa")
-    private String metodo2FA;
+    private String nombre;
 
-    @Column(nullable = false)
-    private Boolean verificado = false;
+    @Column(name = "verification_code")
+    private String verificationCode;
 
-    @Column(name = "fecha_creacion")
-    private LocalDateTime fechaCreacion;
+    private boolean verificado = false;
 }
-//package fullstack.demo.Entidad;
-//
-//import jakarta.persistence.Column;
-//import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
-//import jakarta.persistence.Id;
-//import jakarta.persistence.Table;
-//import lombok.*;
-//
-//@Getter
-//@Setter
-//@Data
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Entity
-//@Table(name = "Usuario")
-//public class Usuario {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id_usuario")
-//    private Integer idUsuario;
-//
-//    @Column(unique = true, nullable = false)
-//    private String username;
-//
-//    @Column(nullable = false)
-//    private String nombres;
-//
-//    @Column(nullable = false)
-//    private String apellidos;
-//
-//    @Column(unique = true, nullable = false)
-//    private String email;
-//
-//    private String telefono;
-//
-//    @Column(nullable = false)
-//    private String contrasena;
-//
-//    // Campo para verificación de cuenta
-//    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
-//    private Boolean verificado = false;
-//
-//}
