@@ -25,32 +25,26 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                // Deshabilitar CSRF (no se usa en APIs REST)
-                .csrf(csrf -> csrf.disable())
-
-                // Configurar CORS (manteniendo tu configuración existente)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
-                // No mantener sesiones (JWT = stateless)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/api/auth/**",
-                    "/api/productos/**",
-                    "/api/categorias/**",
-                    "/upload/**"
-                ).permitAll()
-                .anyRequest().authenticated()
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(
+                            "/api/auth/**",
+                            "/api/productos/**",
+                            "/api/categorias/**",
+                            "/api/ventas/**",  // ventas permitidas sin token
+                            "/upload/**"
+                    ).permitAll()
+                    .anyRequest().authenticated()
             )
+            // Solo aplicar JWT a rutas que **no sean permitAll**
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
+}
 
-                // Agregar el filtro JWT antes del de usuario/contraseña
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-
-                .build();
-    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
