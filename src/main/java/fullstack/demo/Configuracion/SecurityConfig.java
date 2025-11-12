@@ -36,11 +36,15 @@ public class SecurityConfig {
                 // No mantener sesiones (JWT = stateless)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                // Permitir login sin token, todo lo demás requiere autenticación
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
-                )
+                .requestMatchers(
+                    "/api/auth/**",
+                    "/api/productos/**",
+                    "/api/categorias/**",
+                    "/upload/**"
+                ).permitAll()
+                .anyRequest().authenticated()
+            )
 
                 // Agregar el filtro JWT antes del de usuario/contraseña
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
