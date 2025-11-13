@@ -108,7 +108,13 @@ backend-TiendaRopa/
 
 ---
 
+## Video explicativo
 
+Link del video:
+
+https://youtu.be/0xc_w_y50wQ
+
+---
 
 ## Autores
 
