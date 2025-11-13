@@ -1,41 +1,100 @@
+
 package fullstack.demo.RestControl;
-import fullstack.demo.Configuracion.JwtUtil;
-import fullstack.demo.DTO.LoginDTO;
-import fullstack.demo.Entidad.Empleado;
-import fullstack.demo.Servicios.EmpleadoService;
+
+
+import fullstack.demo.Entidad.Usuario;
+import fullstack.demo.DAO.UsuarioDAO;
+import fullstack.demo.Servicios.VerificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:7500")
+@CrossOrigin(origins = "http://localhost:7500") // o tu puerto React
 public class AuthControlador {
 
-    @Autowired private EmpleadoService empleadoService;
-    @Autowired private JwtUtil jwtUtil;
+    @Autowired
+    private UsuarioDAO usuarioDAO;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
-        Empleado empleado = empleadoService.autenticarEmpleado(loginDTO.getUsername(), loginDTO.getContrasena());
-        if (empleado == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
+    @Autowired
+    private VerificacionService verificacionService;
+
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    @PostMapping("/register")
+    public Map<String, Object> register(@RequestBody Usuario usuario) {
+        Map<String, Object> res = new HashMap<>();
+
+        if (usuarioDAO.findByEmail(usuario.getEmail()).isPresent()) {
+            res.put("success", false);
+            res.put("message", "El correo ya está registrado.");
+            return res;
+        }
+        if (usuarioDAO.findByUsername(usuario.getUsername()).isPresent()) {
+            res.put("success", false);
+            res.put("message", "El nombre de usuario ya está en uso.");
+            return res;
         }
 
-        Map<String, Object> claims = Map.of(
-                "rol", empleado.getRol().getRol(),
-                "idEmpleado", empleado.getIdEmpleado()
-        );
+        usuario.setPassword(encoder.encode(usuario.getPassword()));
+        usuario.setVerificado(false);
+        usuarioDAO.save(usuario);
 
-        String token = jwtUtil.generarToken(empleado.getUsername(), claims);
+        verificacionService.generarYEnviarCodigo(usuario.getEmail());
 
-        return ResponseEntity.ok(Map.of(
-                "idEmpleado", empleado.getIdEmpleado(),
-                "rol", empleado.getRol().getRol(),
-                "username", empleado.getUsername(),
-                "token", token
-        ));
+        res.put("success", true);
+        res.put("message", "Usuario registrado. Se envió un código de verificación al correo.");
+        return res;
+    }
+
+    @PostMapping("/verificar")
+    public Map<String, Object> verificar(@RequestBody Map<String, String> datos) {
+        String email = datos.get("email");
+        String codigo = datos.get("code");
+
+        Map<String, Object> res = new HashMap<>();
+
+        boolean valido = verificacionService.verificarCodigo(email, codigo);
+        if (!valido) {
+            res.put("success", false);
+            res.put("message", "Código incorrecto o expirado.");
+            return res;
+        }
+
+        Usuario usuario = usuarioDAO.findByEmail(email).orElse(null);
+        if (usuario == null) {
+            res.put("success", false);
+            res.put("message", "Usuario no encontrado.");
+            return res;
+        }
+
+        usuario.setVerificado(true);
+        usuarioDAO.save(usuario);
+
+        res.put("success", true);
+        res.put("message", "Cuenta verificada con éxito.");
+        return res;
+    }
+
+    @PostMapping("/reenviar-codigo")
+    public Map<String, Object> reenviarCodigo(@RequestBody Map<String, String> datos) {
+        String email = datos.get("email");
+        Map<String, Object> res = new HashMap<>();
+
+        if (usuarioDAO.findByEmail(email).isEmpty()) {
+            res.put("success", false);
+            res.put("message", "No se encontró un usuario con ese correo.");
+            return res;
+        }
+
+        verificacionService.generarYEnviarCodigo(email);
+
+        res.put("success", true);
+        res.put("message", "Se envió un nuevo código de verificación.");
+        return res;
     }
 }
+

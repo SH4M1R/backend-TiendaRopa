@@ -3,8 +3,11 @@ package fullstack.demo.Entidad;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
-
+@Getter
+@Setter
 @Entity
 @Data
 @Table(name = "Empleado")
