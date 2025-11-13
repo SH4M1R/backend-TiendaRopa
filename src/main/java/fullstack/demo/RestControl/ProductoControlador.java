@@ -52,7 +52,7 @@ public class ProductoControlador {
 
         return productoService.actualizarProducto(producto);
     }
-
+    
     @DeleteMapping("/{id}")
     public void eliminarProducto(@PathVariable Integer id) {
         productoService.eliminarProducto(id);
