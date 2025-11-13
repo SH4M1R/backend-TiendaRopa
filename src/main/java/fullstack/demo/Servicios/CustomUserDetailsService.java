@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
+
     @Autowired
     private EmpleadoDAO empleadoDAO;
 
@@ -16,10 +17,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         Empleado empleado = empleadoDAO.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
 
+        String rol = empleado.getRol().getRol(); // e.g. ADMINISTRADOR
+        String authority = "ROLE_" + rol.toUpperCase(); // ROLE_ADMINISTRADOR
+
         return User.builder()
                 .username(empleado.getUsername())
                 .password(empleado.getContrasena())
-                .roles(empleado.getRol().getRol())
+                .roles(rol.toUpperCase()) // same as authority
                 .build();
     }
 }

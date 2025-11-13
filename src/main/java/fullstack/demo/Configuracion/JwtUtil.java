@@ -53,6 +53,8 @@ public class JwtUtil {
                 .getBody();
     }
 
+
+
     // VALIDACIÓN DEL TOKEN
     public boolean validarToken(String token) {
         try {
@@ -79,4 +81,10 @@ public class JwtUtil {
     public String extractUsername(String token) {
         return obtenerUsernameDelToken(token);
     }
+
+    public String extractRole(String token) {
+        Claims claims = obtenerTodosLosClaims(token);
+        return (String) claims.get("rol"); // the claim name used in AuthControlador
+    }
+
 }

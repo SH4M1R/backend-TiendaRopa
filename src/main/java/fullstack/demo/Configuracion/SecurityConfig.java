@@ -39,6 +39,9 @@ public class SecurityConfig {
                 // Permitir login sin token, todo lo demás requiere autenticación
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers("/api/categorias/**").hasAnyRole("ADMINISTRADOR", "VENDEDOR")
+                        .requestMatchers("/api/productos/**").hasAnyRole("ADMINISTRADOR", "ALMACENISTA")
                         .anyRequest().authenticated()
                 )
 
