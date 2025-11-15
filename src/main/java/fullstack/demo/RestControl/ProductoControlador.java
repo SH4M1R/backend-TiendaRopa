@@ -37,6 +37,7 @@ public class ProductoControlador {
         return productoService.crearProducto(producto);
     }
 
+
     @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
     public Producto actualizarProducto(
             @PathVariable Integer id,
