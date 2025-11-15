@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>Peloteros</artifactId>
+	<artifactId>MODASTYLE</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Peloteros</name>
-	<description>Peloteros Spring</description>
+	<name>MODASTYLE</name>
+	<description>MODASTYLE</description>
 	<url/>
 	<licenses>
 		<license/>

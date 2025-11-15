@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 @Service
 public class UploadService {
 
-    private final String uploadDir = "uploads/";
+    private final String uploadDir = "src/main/resources/static/upload/";
 
     public String saveUpload(MultipartFile file) {
         try {
@@ -25,7 +25,7 @@ public class UploadService {
 
             Files.write(filepath, file.getBytes());
 
-            return "/uploads/" + filename;
+            return "/upload/" + filename;
 
         } catch (Exception e) {
             throw new RuntimeException("Error al guardar imagen: " + e.getMessage());
