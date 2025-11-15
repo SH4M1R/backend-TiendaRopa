@@ -1,7 +1,8 @@
 package fullstack.demo.Servicios;
 
 import fullstack.demo.DAO.EmpleadoDAO;
-import fullstack.demo.Entidad.Empleado;
+import fullstack.demo.Entidad.Intranet.Empleado;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;

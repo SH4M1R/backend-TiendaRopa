@@ -1,7 +1,8 @@
 package fullstack.demo.Servicios;
 
 import java.util.List;
-import fullstack.demo.Entidad.Empleado;
+
+import fullstack.demo.Entidad.Intranet.Empleado;
 
 public interface EmpleadoService {
     List<Empleado> listarEmpleados();

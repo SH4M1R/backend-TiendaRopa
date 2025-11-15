@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import fullstack.demo.DAO.ClienteDAO;
 import fullstack.demo.DTO.ClienteRequest;
-import fullstack.demo.Entidad.Cliente;
+import fullstack.demo.Entidad.Intranet.Cliente;
 import fullstack.demo.Servicios.ClienteService;
 import java.util.Optional;
 

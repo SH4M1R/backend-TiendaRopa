@@ -1,6 +1,7 @@
-package fullstack.demo.Entidad;
+package fullstack.demo.Entidad.Intranet;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;

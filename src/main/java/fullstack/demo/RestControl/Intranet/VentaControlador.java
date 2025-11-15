@@ -1,10 +1,10 @@
-package fullstack.demo.RestControl;
+package fullstack.demo.RestControl.Intranet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import fullstack.demo.DTO.VentaRequest;
-import fullstack.demo.Entidad.Venta;
+import fullstack.demo.Entidad.Intranet.Venta;
 import fullstack.demo.DAO.VentaDAO;
 import fullstack.demo.ServiciosImpl.VentaServiceImpl;
 import java.util.List;

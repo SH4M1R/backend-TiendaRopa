@@ -1,9 +1,10 @@
-package fullstack.demo.RestControl;
+package fullstack.demo.RestControl.App;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import fullstack.demo.DAO.UsuarioDAO;
-import fullstack.demo.Entidad.Usuario;
+import fullstack.demo.Entidad.App.Usuario;
+
 import java.util.List;
 
 @RestController

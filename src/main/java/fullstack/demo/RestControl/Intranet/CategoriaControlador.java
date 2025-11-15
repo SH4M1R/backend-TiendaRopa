@@ -1,4 +1,4 @@
-package fullstack.demo.RestControl;
+package fullstack.demo.RestControl.Intranet;
 
 import fullstack.demo.Entidad.Categoria;
 import fullstack.demo.Servicios.CategoriaService;

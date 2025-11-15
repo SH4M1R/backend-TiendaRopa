@@ -3,7 +3,7 @@ package fullstack.demo.ServiciosImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import fullstack.demo.DAO.DetalleVentaDAO;
-import fullstack.demo.Entidad.DetalleVenta;
+import fullstack.demo.Entidad.Intranet.DetalleVenta;
 import fullstack.demo.Servicios.DetalleVentaService;
 
 @Service

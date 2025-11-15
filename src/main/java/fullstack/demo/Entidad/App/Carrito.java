@@ -1,6 +1,6 @@
-package fullstack.demo.Entidad;
+package fullstack.demo.Entidad.App;
 
-import java.math.BigDecimal;
+import fullstack.demo.Entidad.Producto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,20 +16,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "DetalleVentaOnline")
-public class DetalleVentaOnline {
+@Table(name = "Carrito")
+public class Carrito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idDetalleVentaOnline;
-
-    private Integer cantidad;
-    private BigDecimal subtotal;
+    private Integer idCarrito;
 
     @ManyToOne
-    @JoinColumn(name = "VentaOnline_idVentaOnline", nullable = false)
-    private VentaOnline ventaOnline;
+    @JoinColumn(name = "Usuario_idUsuario", nullable = false)
+    private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "Producto_idProducto", nullable = false)
     private Producto producto;
+
+    private Integer cantidad;
 }

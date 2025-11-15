@@ -1,8 +1,10 @@
-package fullstack.demo.Entidad;
+package fullstack.demo.Entidad.Intranet;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
+
+import fullstack.demo.Entidad.Producto;
 
 @Entity
 @Data

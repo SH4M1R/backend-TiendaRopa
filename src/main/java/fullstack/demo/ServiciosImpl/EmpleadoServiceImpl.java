@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import fullstack.demo.DAO.EmpleadoDAO;
-import fullstack.demo.Entidad.Empleado;
+import fullstack.demo.Entidad.Intranet.Empleado;
 import fullstack.demo.Servicios.EmpleadoService;
 
 @Service

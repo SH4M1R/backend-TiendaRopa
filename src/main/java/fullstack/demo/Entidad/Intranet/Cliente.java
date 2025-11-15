@@ -1,4 +1,4 @@
-package fullstack.demo.Entidad;
+package fullstack.demo.Entidad.Intranet;
 
 import jakarta.persistence.*;
 import lombok.Data;

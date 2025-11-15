@@ -42,7 +42,11 @@ backend-TiendaRopa/
 │   │   │   ├── Data/                  # Carga inicial de datos o componentes utilitarios
 │   │   │   ├── DTO/                   # Clases Data Transfer Object (transferencia de datos)
 │   │   │   ├── Entidad/               # Clases de entidad que representan las tablas de la BD
+│   │   │   │  ├── App/                # Exclusivas del aplicativo
+│   │   │   │  ├── Intranet/           # Exclusivas de la intranet
 │   │   │   ├── RestControl/           # Controladores REST que exponen los endpoints
+│   │   │   │  ├── App/                # Exclusivas del aplicativo
+│   │   │   │  ├── Intranet/           # Exclusivas de la intranet
 │   │   │   ├── Servicios/             # Interfaces de servicios
 │   │   │   ├── ServiciosImpl/         # Implementaciones de los servicios
 │   │   │   └── DemoApplication.java   # Clase principal (punto de entrada del proyecto)
@@ -108,11 +112,24 @@ backend-TiendaRopa/
 
 ---
 
+## Video explicativo
+
+Link del video:
+
+https://youtu.be/0xc_w_y50wQ
 
 
-## Autores
+## Autores (INTRANET)
 
 - Abel Castillo
 - Juan Pablo Inonan
 - Jeffrey Perez
 - Elmer Calisalla
+
+## Autores (APP)
+
+- Abel Castillo
+- Juan Pablo Inonan
+- Michael Reques
+- 
+-

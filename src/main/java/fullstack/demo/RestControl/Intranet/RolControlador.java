@@ -1,8 +1,9 @@
-package fullstack.demo.RestControl;
+package fullstack.demo.RestControl.Intranet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import fullstack.demo.Entidad.Rol;
+
+import fullstack.demo.Entidad.Intranet.Rol;
 import fullstack.demo.Servicios.RolService;
 import java.util.List;
 

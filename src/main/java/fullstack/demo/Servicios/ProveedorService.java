@@ -1,7 +1,8 @@
 package fullstack.demo.Servicios;
 
 import java.util.List;
-import fullstack.demo.Entidad.Proveedor;
+
+import fullstack.demo.Entidad.Intranet.Proveedor;
 
 public interface ProveedorService {
     List<Proveedor> listarProveedores();

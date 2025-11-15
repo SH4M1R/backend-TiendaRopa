@@ -4,8 +4,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import fullstack.demo.DAO.EmpleadoDAO;
 import fullstack.demo.DAO.RolDAO;
-import fullstack.demo.Entidad.Empleado;
-import fullstack.demo.Entidad.Rol;
+import fullstack.demo.Entidad.Intranet.Empleado;
+import fullstack.demo.Entidad.Intranet.Rol;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

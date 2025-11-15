@@ -1,4 +1,4 @@
-package fullstack.demo.Entidad;
+package fullstack.demo.Entidad.App;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

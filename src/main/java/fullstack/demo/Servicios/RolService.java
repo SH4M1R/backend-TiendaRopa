@@ -1,7 +1,8 @@
 package fullstack.demo.Servicios;
 
-import fullstack.demo.Entidad.Rol;
 import java.util.List;
+
+import fullstack.demo.Entidad.Intranet.Rol;
 
 public interface RolService {
     List<Rol> listarRoles();

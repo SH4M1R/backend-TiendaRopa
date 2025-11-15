@@ -1,7 +1,7 @@
 package fullstack.demo.ServiciosImpl;
 
 import fullstack.demo.DAO.RolDAO;
-import fullstack.demo.Entidad.Rol;
+import fullstack.demo.Entidad.Intranet.Rol;
 import fullstack.demo.Servicios.RolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
