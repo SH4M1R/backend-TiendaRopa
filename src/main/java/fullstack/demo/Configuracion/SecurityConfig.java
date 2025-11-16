@@ -11,7 +11,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import java.util.List;
 
 @Configuration
@@ -24,43 +23,48 @@ public class SecurityConfig {
     }
 
     @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    return http
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(
-                            "/api/auth/**",
-                            "/api/productos/**",
-                            "/api/categorias/**",
-                            "/api/ventas/**",  // ventas permitidas sin token
-                            "/upload/**"
-                    ).permitAll()
-                    .anyRequest().authenticated()
-            )
-            // Solo aplicar JWT a rutas que **no sean permitAll**
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
-}
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        return http
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/api/productos/**",
+                                "/api/categorias/**",
+                                "/api/ventas/**",
+                                "/api/usuarios/**",
+                                "/upload/**"
+                        ).permitAll()
+                        .anyRequest().authenticated()
+                )
+
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
 
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:7500"));
+        configuration.addAllowedOriginPattern("*");
+
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+
         return source;
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
 }

@@ -1,4 +1,4 @@
-package fullstack.demo.DTO;
+package fullstack.demo.DTO.Intranet;
 
 import lombok.Data;
 import java.math.BigDecimal;

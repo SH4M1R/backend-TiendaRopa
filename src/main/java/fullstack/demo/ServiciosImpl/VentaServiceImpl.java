@@ -5,13 +5,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fullstack.demo.DAO.VentaDAO;
+import fullstack.demo.DTO.Intranet.VentaRequest;
 import fullstack.demo.DAO.DetalleVentaDAO;
 import fullstack.demo.DAO.ProductoDAO;
 import fullstack.demo.Entidad.Intranet.Cliente;
 import fullstack.demo.Entidad.Intranet.DetalleVenta;
 import fullstack.demo.Entidad.Intranet.Venta;
 import fullstack.demo.Entidad.Producto;
-import fullstack.demo.DTO.VentaRequest;
 import fullstack.demo.Servicios.ClienteService;
 import java.time.LocalDateTime;
 
