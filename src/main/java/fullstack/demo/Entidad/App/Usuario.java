@@ -1,5 +1,7 @@
 package fullstack.demo.Entidad.App;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,4 +25,7 @@ public class Usuario {
     private String correo;
     private String direccion;
     private String contrasena;
+    private String telefono;
+    private String codigoReset;
+    private LocalDateTime codigoExpira;
 }

@@ -32,4 +32,15 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public Usuario login(String correo, String contrasena) {
+        return usuarioDAO.findByCorreoAndContrasena(correo, contrasena);
+    }
+
+    @Override
+    public Usuario actualizarUsuario(Usuario usuario) { return usuarioDAO.save(usuario); }
+
+    @Override
+    public void eliminarUsuario(Integer idUsuario) { usuarioDAO.deleteById(idUsuario); }
 }
