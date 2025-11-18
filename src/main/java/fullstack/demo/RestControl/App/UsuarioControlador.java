@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import fullstack.demo.Configuracion.JwtUtil;
 import fullstack.demo.DTO.App.LoginRequest;
 import fullstack.demo.Entidad.App.Usuario;
@@ -37,7 +36,6 @@ public class UsuarioControlador {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUsuario(@RequestBody LoginRequest request) {
-
         Usuario usuario = usuarioService.login(request.getCorreo(), request.getContrasena());
 
         if (usuario == null) {
@@ -113,4 +111,5 @@ public class UsuarioControlador {
         usuarioService.eliminarUsuario(idUsuario);
         return ResponseEntity.ok(Map.of("mensaje", "Usuario eliminado correctamente"));
     }
+
 }

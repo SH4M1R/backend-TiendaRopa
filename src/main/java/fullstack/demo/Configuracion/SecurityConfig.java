@@ -38,6 +38,7 @@ public class SecurityConfig {
                                 "/api/catalogo/**",
                                 "/api/ventas/**",
                                 "/api/usuarios/**",
+                                "/api/recuperacion/**",
                                 "/upload/**"
                         ).permitAll()
                         .anyRequest().authenticated()

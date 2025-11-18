@@ -10,4 +10,7 @@ public interface UsuarioService {
     Usuario login(String correo, String contrasena);
     Usuario actualizarUsuario(Usuario usuario);
     void eliminarUsuario(Integer idUsuario);
+    Usuario generarYGuardarCodigo(String correo);
+    Usuario verificarCodigoYResetearContrasena(String correo, String codigo, String nuevaContrasena);
+
 }
