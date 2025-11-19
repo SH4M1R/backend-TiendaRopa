@@ -2,7 +2,8 @@ package fullstack.demo.RestControl.Intranet;
 
 import fullstack.demo.Entidad.Producto;
 import fullstack.demo.Servicios.ProductoService;
-import fullstack.demo.Servicios.UploadService;
+import fullstack.demo.Servicios.Intranet.UploadService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

@@ -5,9 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import fullstack.demo.Entidad.Intranet.Venta;
-import fullstack.demo.DAO.VentaDAO;
+import fullstack.demo.ServiciosImpl.Intranet.VentaServiceImpl;
+import fullstack.demo.DAO.Intranet.VentaDAO;
 import fullstack.demo.DTO.Intranet.VentaRequest;
-import fullstack.demo.ServiciosImpl.VentaServiceImpl;
+
 import java.util.List;
 import java.util.Optional;
 

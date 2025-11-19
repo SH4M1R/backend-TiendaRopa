@@ -2,8 +2,9 @@ package fullstack.demo.Data;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import fullstack.demo.DAO.EmpleadoDAO;
-import fullstack.demo.DAO.RolDAO;
+
+import fullstack.demo.DAO.Intranet.EmpleadoDAO;
+import fullstack.demo.DAO.Intranet.RolDAO;
 import fullstack.demo.Entidad.Intranet.Empleado;
 import fullstack.demo.Entidad.Intranet.Rol;
 

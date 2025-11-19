@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import fullstack.demo.Entidad.Intranet.Rol;
-import fullstack.demo.Servicios.RolService;
+import fullstack.demo.Servicios.Intranet.RolService;
+
 import java.util.List;
 
 @RestController

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fullstack.demo.Entidad.Intranet.Proveedor;
-import fullstack.demo.Servicios.ProveedorService;
+import fullstack.demo.Servicios.Intranet.ProveedorService;
 
 @RestController
 @RequestMapping("/api/proveedores")

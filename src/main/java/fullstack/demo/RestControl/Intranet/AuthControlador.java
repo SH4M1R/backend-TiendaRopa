@@ -2,7 +2,8 @@ package fullstack.demo.RestControl.Intranet;
 import fullstack.demo.Configuracion.JwtUtil;
 import fullstack.demo.DTO.Intranet.LoginDTO;
 import fullstack.demo.Entidad.Intranet.Empleado;
-import fullstack.demo.Servicios.EmpleadoService;
+import fullstack.demo.Servicios.Intranet.EmpleadoService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

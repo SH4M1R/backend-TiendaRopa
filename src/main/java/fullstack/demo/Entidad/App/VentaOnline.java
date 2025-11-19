@@ -29,6 +29,7 @@ public class VentaOnline {
 
     private BigDecimal total;
     private LocalDateTime fechaVenta;
+    private String metodoPago;
 
     @ManyToOne
     @JoinColumn(name = "Usuario_idUsuario", nullable = false)

@@ -5,8 +5,9 @@ import org.springframework.web.bind.annotation.*;
 
 import fullstack.demo.Entidad.Intranet.Empleado;
 import fullstack.demo.Entidad.Intranet.Rol;
-import fullstack.demo.Servicios.EmpleadoService;
-import fullstack.demo.Servicios.RolService;
+import fullstack.demo.Servicios.Intranet.EmpleadoService;
+import fullstack.demo.Servicios.Intranet.RolService;
+
 import java.util.List;
 
 @RestController

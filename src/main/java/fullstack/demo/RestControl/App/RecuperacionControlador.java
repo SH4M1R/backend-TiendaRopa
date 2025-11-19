@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import fullstack.demo.DTO.App.ResetCodeRequest;
 import fullstack.demo.DTO.App.PasswordResetRequest;
 import fullstack.demo.Entidad.App.Usuario;
-import fullstack.demo.Servicios.UsuarioService;
+import fullstack.demo.Servicios.App.UsuarioService;
 
 @RestController
 @RequestMapping("/api/recuperacion")
