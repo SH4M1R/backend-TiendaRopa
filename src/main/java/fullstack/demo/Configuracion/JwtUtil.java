@@ -2,6 +2,7 @@ package fullstack.demo.Configuracion;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +14,11 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY = "ClaveSuperSecretaDeJwtParaPeloteros2025ClaveSegura123456";
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 5; // 5 horas
+    @Value("${security.jwt.secret}")
+    private String secretKey;
+
+    @Value("${security.jwt.expiration}")
+    private long expirationTime;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
