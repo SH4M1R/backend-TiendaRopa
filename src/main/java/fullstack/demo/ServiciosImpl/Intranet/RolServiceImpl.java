@@ -1,0 +1,31 @@
+package fullstack.demo.ServiciosImpl.Intranet;
+
+import fullstack.demo.DAO.Intranet.RolDAO;
+import fullstack.demo.Entidad.Intranet.Rol;
+import fullstack.demo.Servicios.Intranet.RolService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class RolServiceImpl implements RolService {
+
+    @Autowired
+    private RolDAO rolDAO;
+
+    @Override
+    public List<Rol> listarRoles() {return rolDAO.findAll();}
+
+    @Override
+    public Rol obtenerRolPorId(Integer idRol) {return rolDAO.findById(idRol).get();}
+
+    @Override
+    public Rol crearRol(Rol rol) {return rolDAO.save(rol);}
+
+    @Override
+    public Rol actualizarRol(Rol rol) {return rolDAO.save(rol);}
+
+    @Override
+    public void eliminarRol(Integer idRol) { rolDAO.deleteById(idRol);}
+}

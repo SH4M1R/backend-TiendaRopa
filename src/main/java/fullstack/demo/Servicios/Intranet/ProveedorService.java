@@ -1,0 +1,13 @@
+package fullstack.demo.Servicios.Intranet;
+
+import java.util.List;
+
+import fullstack.demo.Entidad.Intranet.Proveedor;
+
+public interface ProveedorService {
+    List<Proveedor> listarProveedores();
+    Proveedor crearProveedor(Proveedor proveedor);
+    Proveedor obtenerProveedorPorId(Integer idProveedor);
+    Proveedor actualizarProveedor(Proveedor proveedor);
+    void eliminarProveedor(Integer idProveedor);
+}
