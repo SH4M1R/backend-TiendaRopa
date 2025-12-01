@@ -21,7 +21,7 @@ public class JwtUtil {
     private long expirationTime;
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+        return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
     // GENERACIÓN DEL TOKEN
@@ -30,7 +30,7 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -79,7 +79,6 @@ public class JwtUtil {
         return obtenerFechaExpiracion(token).before(new Date());
     }
 
-    // Alias más "compatibles" para el filtro
     public String extractUsername(String token) {
         return obtenerUsernameDelToken(token);
     }
