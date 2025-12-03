@@ -60,6 +60,7 @@ public class SecurityConfig {
                 // =============================================================
                 
                 .requestMatchers(
+                    "/error",
                     "/api/empleados/**", 
                     "/api/roles/**"
                 ).hasRole("ADMINISTRADOR")

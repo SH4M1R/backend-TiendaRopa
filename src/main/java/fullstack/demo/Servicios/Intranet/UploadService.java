@@ -1,34 +1,29 @@
 package fullstack.demo.Servicios.Intranet;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.util.Map;
 
 @Service
 public class UploadService {
 
-    private final String uploadDir = "src/main/resources/static/upload/";
+    @Autowired
+    private Cloudinary cloudinary;
 
     public String saveUpload(MultipartFile file) {
         try {
-            Path directory = Paths.get(uploadDir);
-            if (!Files.exists(directory)) {
-                Files.createDirectories(directory);
-            }
+            // Subir a Cloudinary
+            Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+            
+            // Retornar la URL segura (https) de la imagen en la nube
+            return uploadResult.get("secure_url").toString();
 
-            String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-
-            Path filepath = directory.resolve(filename);
-
-            Files.write(filepath, file.getBytes());
-
-            return "/upload/" + filename;
-
-        } catch (Exception e) {
-            throw new RuntimeException("Error al guardar imagen: " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException("Error al subir imagen a Cloudinary: " + e.getMessage());
         }
     }
 }
