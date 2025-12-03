@@ -17,7 +17,7 @@ import fullstack.demo.Servicios.Intranet.ProveedorService;
 
 @RestController
 @RequestMapping("/api/proveedores")
-@CrossOrigin(origins = "http://localhost:7500")
+
 public class ProveedorControlador {
 @Autowired
     private ProveedorService proveedorService;

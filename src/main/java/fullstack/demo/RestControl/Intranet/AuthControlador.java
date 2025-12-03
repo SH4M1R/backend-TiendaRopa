@@ -12,7 +12,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:7500")
+
 public class AuthControlador {
 
     @Autowired private EmpleadoService empleadoService;
