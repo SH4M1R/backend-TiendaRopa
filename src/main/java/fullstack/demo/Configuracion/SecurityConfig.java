@@ -17,7 +17,7 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    @Value("${cors.allowed-origins}") // Leemos la variable
+    @Value("${cors.allowed-origins}")
     private String frontendUrl;
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -30,35 +30,68 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/auth/**",
-                                "/api/productos/**",
-                                "/api/categorias/**",
-                                "/api/catalogo/**",
-                                "/api/ventas/**",
-                                "/api/usuarios/**",
-                                "/api/dashboard/**",
-                                "/api/pago/**",
-                                "/api/carrito/**",
-                                "/api/recuperacion/**",
-                                "/upload/**"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
+            .authorizeHttpRequests(auth -> auth
+                // =============================================================
+                // 1. ZONA PÚBLICA (Acceso libre para todos)
+                // =============================================================
+                .requestMatchers("/upload/**").permitAll()
+                
+                .requestMatchers("/api/auth/**").permitAll()
+                
+                .requestMatchers("/api/recuperacion/**").permitAll()
+                
+                // =============================================================
+                // 2. ZONA APP CLIENTES (Público para funcionamiento de la tienda)
+                // =============================================================
+                .requestMatchers("/api/usuarios/**").permitAll()
+                
+                .requestMatchers("/api/catalogo/**").permitAll()
+                
 
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .requestMatchers("/api/carrito/**").permitAll()
+                .requestMatchers("/api/pago/**").permitAll()
+
+                // =============================================================
+                // 3. ZONA INTRANET (Protegida por Roles de Empleados)
+                // =============================================================
+                
+                .requestMatchers(
+                    "/api/empleados/**", 
+                    "/api/roles/**"
+                ).hasRole("ADMINISTRADOR")
+
+                .requestMatchers(
+                    "/api/ventas/**", 
+                    "/api/dashboard/**"
+                ).hasAnyRole("ADMINISTRADOR", "VENDEDOR")
+
+                .requestMatchers(
+                    "/api/proveedores/**", 
+                    "/api/categorias/**"
+                ).hasAnyRole("ADMINISTRADOR", "ALMACENISTA")
+
+                .requestMatchers(
+                    "/api/productos/**"
+                ).hasAnyRole("ADMINISTRADOR", "VENDEDOR", "ALMACENISTA")
+
+                // =============================================================
+                // 4. RESTO DE PETICIONES (Bloqueo por defecto)
+                // =============================================================
+                .anyRequest().authenticated()
+            )
+
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
     }
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        // Permite el origen configurado en application.properties
         configuration.setAllowedOriginPatterns(List.of(frontendUrl));
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
@@ -70,7 +103,6 @@ public class SecurityConfig {
 
         return source;
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
