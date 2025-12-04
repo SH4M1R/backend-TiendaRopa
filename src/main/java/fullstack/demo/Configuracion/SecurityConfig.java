@@ -38,6 +38,7 @@ public class SecurityConfig {
                 // =============================================================
                 // 1. ZONA PÚBLICA (Acceso libre para todos)
                 // =============================================================
+                .requestMatchers("/").permitAll()
                 .requestMatchers("/upload/**").permitAll()
                 
                 .requestMatchers("/api/auth/**").permitAll()
