@@ -1,4 +1,4 @@
-package fullstack.demo.Configuracion;
+/*package fullstack.demo.Configuracion;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -12,4 +12,4 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/upload/**")
                 .addResourceLocations("classpath:/static/upload/");
     }
-}
+}*/

@@ -17,7 +17,7 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    @Value("${cors.allowed-origins}")
+    @Value('https://frontend-fullstack-sable.vercel.app')
     private String frontendUrl;
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -45,9 +45,8 @@ public class SecurityConfig {
                 
                 .requestMatchers("/api/recuperacion/**").permitAll()
                 
-                // =============================================================
-                // 2. ZONA APP CLIENTES (Público para funcionamiento de la tienda)
-                // =============================================================
+                .requestMatchers("/api/ventas/*/boleta").permitAll()
+
                 .requestMatchers("/api/usuarios/**").permitAll()
                 
                 .requestMatchers("/api/catalogo/**").permitAll()
