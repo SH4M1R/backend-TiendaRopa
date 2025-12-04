@@ -39,6 +39,9 @@ private String frontendUrl;
                 // 1. ZONA PÚBLICA (Acceso libre para todos)
                 // =============================================================
                 .requestMatchers("/").permitAll()
+
+                .requestMatchers("/error").permitAll()
+
                 .requestMatchers("/upload/**").permitAll()
                 
                 .requestMatchers("/api/auth/**").permitAll()
@@ -60,7 +63,6 @@ private String frontendUrl;
                 // =============================================================
                 
                 .requestMatchers(
-                    "/error",
                     "/api/empleados/**", 
                     "/api/roles/**"
                 ).hasRole("ADMINISTRADOR")
