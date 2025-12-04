@@ -17,8 +17,8 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    @Value('https://frontend-fullstack-sable.vercel.app')
-    private String frontendUrl;
+    @Value("${cors.allowed-origins}")
+private String frontendUrl;
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 
                 .requestMatchers("/api/recuperacion/**").permitAll()
-                
+
                 .requestMatchers("/api/ventas/*/boleta").permitAll()
 
                 .requestMatchers("/api/usuarios/**").permitAll()
@@ -96,7 +96,8 @@ public class SecurityConfig {
         configuration.setAllowedOriginPatterns(List.of(frontendUrl));
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+configuration.setAllowedHeaders(List.of("*"));
+configuration.setExposedHeaders(List.of("Authorization"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
