@@ -55,23 +55,23 @@ protected void doFilterInternal(HttpServletRequest request,
     }
 
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-        
-        // Imprimir roles que Spring espera vs los que tiene el usuario
-        System.out.println("📜 Roles en BD para " + username + ": " + userDetails.getAuthorities());
+            try {
+                // 2. BLINDAJE AQUÍ: Intentamos cargar el usuario
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-        if (jwtUtil.isTokenValid(token, userDetails)) {
-            System.out.println("✅ Token VÁLIDO. Autenticando usuario...");
-            // ... resto de tu lógica de autenticación ...
-            UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authToken);
-        } else {
-            System.out.println("⛔ Token INVÁLIDO según jwtUtil.isTokenValid()");
+                if (jwtUtil.isTokenValid(token, userDetails)) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+            } catch (UsernameNotFoundException e) {
+                // 3. SI EL USUARIO NO EXISTE (BD reiniciada), SOLO LO IGNORAMOS
+                System.out.println("⚠️ Token válido pero usuario no encontrado en BD (Token huérfano): " + username);
+                // No hacemos nada, SecurityContext sigue null (Anónimo), la petición continúa.
+            }
         }
-    }
-    System.out.println("------------------------------------------------");
-    filterChain.doFilter(request, response);
+        
+        filterChain.doFilter(request, response);
 }
 }
