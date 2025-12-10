@@ -25,7 +25,7 @@ private String frontendUrl;
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
-
+// CONFIGURACIÓN DE SEGURIDAD CORS PARA AUTORIZACION
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 

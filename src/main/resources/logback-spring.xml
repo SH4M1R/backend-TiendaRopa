@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+    <!-- ========= Configuración General ========= -->
+    <property name="LOG_PATH" value="logs" />
+    <timestamp key="DATE" datePattern="yyyy-MM-dd"/>
+    <!-- ========== APP GENERAL LOG (INFO) ========== -->
+    <appender name="APP_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/app-${DATE}.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/archive/app-%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- ========== EXCEPTIONS LOG ========== -->
+    <appender name="EXCEPTIONS_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/exceptions.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/archive/exceptions-%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+
+        <encoder>
+            <pattern>%date %-5level %logger{36} - %msg%n%xEx</pattern>
+        </encoder>
+    </appender>
+    <!-- ========== REJECTIONS LOG (validaciones, seguridad, etc.) ========== -->
+    <appender name="REJECTIONS_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/rejections.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/archive/rejections-%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <!-- Solo registrar WARN -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <encoder>
+            <pattern>%date %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- ========= LOGGERS ========= -->
+    <!-- Logger de excepciones globales -->
+    <logger name="exceptions" level="ERROR" additivity="false">
+        <appender-ref ref="EXCEPTIONS_FILE"/>
+    </logger>
+    <!-- Logger de validaciones / rechazos -->
+    <logger name="rejections" level="WARN" additivity="false">
+        <appender-ref ref="REJECTIONS_FILE"/>
+    </logger>
+    <!-- Root logger (general) -->
+    <root level="INFO">
+        <appender-ref ref="APP_FILE"/>
+    </root>
+
+</configuration>

@@ -9,9 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/categorias")
-
 public class CategoriaControlador {
-
     @Autowired
     private CategoriaService categoriaService;
 

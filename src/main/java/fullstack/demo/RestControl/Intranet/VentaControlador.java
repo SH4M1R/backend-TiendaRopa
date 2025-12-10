@@ -8,9 +8,7 @@ import fullstack.demo.Servicios.Intranet.BoletaService;
 import fullstack.demo.ServiciosImpl.Intranet.VentaServiceImpl;
 import fullstack.demo.DAO.Intranet.VentaDAO;
 import fullstack.demo.DTO.Intranet.VentaRequest;
-
 import lombok.Data;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,16 +17,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/ventas")
 
 public class VentaControlador {
-
     @Autowired
     private VentaServiceImpl ventaService;
-
     @Autowired
     private VentaDAO ventaDAO;
-
     @Autowired
     private BoletaService boletaService;
-
     @PostMapping("/registrar")
     public ResponseEntity<?> registrarVenta(@RequestBody VentaRequest request) {
         try {
@@ -104,8 +98,7 @@ public class VentaControlador {
                     detDTO.setCodigoIzipay(det.getCodigoIzipay());
                     detDTO.setNumeroTarjeta(det.getNumeroTarjeta());
                     return detDTO;
-                }).collect(Collectors.toList())
-        );
+                }).collect(Collectors.toList()));
         return dto;
     }
 
