@@ -1,4 +1,4 @@
-package fullstack.demo.DTO.Intranet;
+package fullstack.demo.DTO;
 
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
