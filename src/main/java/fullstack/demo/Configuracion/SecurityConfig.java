@@ -40,6 +40,8 @@ private String frontendUrl;
                 // =============================================================
                 .requestMatchers("/").permitAll()
 
+                .requestMatchers("/actuator/health").permitAll()
+
                 .requestMatchers("/error").permitAll()
 
                 .requestMatchers("/upload/**").permitAll()
