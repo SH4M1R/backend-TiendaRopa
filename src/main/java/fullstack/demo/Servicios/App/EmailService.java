@@ -14,15 +14,17 @@ public class EmailService {
     }
 
     public void CodigoCorreo(String toEmail, String code) {
+    try {
         SimpleMailMessage mensaje = new SimpleMailMessage();
         mensaje.setFrom("jpshaiz123@gmail.com");
         mensaje.setTo(toEmail);
         mensaje.setSubject("Código de Recuperación de Contraseña");
-        mensaje.setText("Hola,\n\n"
-                      + "Tu código de 6 dígitos para resetear tu contraseña es: \n\n"
-                      + ">> " + code + " <<\n\n"
-                      + "Este código expirará en 10 minutos."
-                      + "\n\nSaludos.");
+        mensaje.setText("Hola,\n\nTu código de 6 dígitos es: >> " + code + " <<");
         mailSender.send(mensaje);
+        System.out.println("Correo enviado a " + toEmail);
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
 }

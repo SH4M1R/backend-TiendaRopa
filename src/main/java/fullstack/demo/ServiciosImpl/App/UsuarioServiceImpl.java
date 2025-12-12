@@ -57,10 +57,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario actualizarUsuario(Usuario usuario) { return usuarioDAO.save(usuario); }
+    public Usuario actualizarUsuario(Usuario usuario) { 
+        return usuarioDAO.save(usuario); 
+    }
 
     @Override
-    public void eliminarUsuario(Integer idUsuario) { usuarioDAO.deleteById(idUsuario); }
+    public void eliminarUsuario(Integer idUsuario) { 
+        usuarioDAO.deleteById(idUsuario); 
+    }
 
     @Override
     public Usuario generarYGuardarCodigo(String correo) {
@@ -101,6 +105,10 @@ public class UsuarioServiceImpl implements UsuarioService {
             return null;
         }
 
+        // **Aquí se asigna la nueva contraseña**
+        usuario.setContrasena(nuevaContrasena);
+
+        // Limpiamos el código y la fecha de expiración
         usuario.setCodigoReset(null);
         usuario.setCodigoExpira(null);
         
