@@ -2,14 +2,9 @@ package fullstack.demo.Entidad.App;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fullstack.demo.Entidad.Producto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "DetalleVentaOnline")
 public class DetalleVentaOnline {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idDetalleVentaOnline;
@@ -29,6 +25,7 @@ public class DetalleVentaOnline {
 
     @ManyToOne
     @JoinColumn(name = "VentaOnline_idVentaOnline", nullable = false)
+    @JsonIgnore   // ← evita loop ventaOnline → detalles → ventaOnline
     private VentaOnline ventaOnline;
 
     @ManyToOne

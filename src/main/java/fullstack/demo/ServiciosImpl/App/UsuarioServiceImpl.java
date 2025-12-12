@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fullstack.demo.DAO.App.UsuarioDAO;
+import fullstack.demo.DAO.Intranet.EmpleadoDAO;
 import fullstack.demo.Entidad.App.Usuario;
+import fullstack.demo.Entidad.Intranet.Empleado;
 import fullstack.demo.Servicios.App.EmailService;
 import fullstack.demo.Servicios.App.UsuarioService;
 import fullstack.demo.Utils.App.CodeGenerator;
@@ -19,6 +21,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private EmpleadoDAO empleadoDAO;
 
     @Override
     public Usuario registrarUsuario(Usuario usuario) {
@@ -44,6 +49,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Usuario login(String correo, String contrasena) {
         return usuarioDAO.findByCorreoAndContrasena(correo, contrasena);
+    }
+
+    @Override
+    public Empleado loginEmpleado(String username, String contrasena) {
+        return empleadoDAO.findByUsernameAndContrasena(username, contrasena);
     }
 
     @Override

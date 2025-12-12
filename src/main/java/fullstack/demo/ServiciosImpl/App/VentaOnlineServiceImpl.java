@@ -122,4 +122,18 @@ public VentaOnline procesarVentaOffline(Integer usuarioId, String metodoPago) {
     return venta;
 }
 
+    @Override
+    public List<VentaOnline> listarVentas() {
+        return ventaOnlineDAO.findAll();
+    }
+
+    @Override
+    @Transactional
+    public VentaOnline actualizarEstado(Integer id, String estado) {
+        VentaOnline venta = ventaOnlineDAO.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venta no encontrada"));
+        venta.setEstado(estado);
+        return ventaOnlineDAO.save(venta);
+    }
+
 }

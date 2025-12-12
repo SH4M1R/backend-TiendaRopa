@@ -35,26 +35,65 @@ public class UsuarioControlador {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUsuario(@RequestBody LoginRequest request) {
-        Usuario usuario = usuarioService.login(request.getCorreo(), request.getContrasena());
+public ResponseEntity<?> loginUsuario(@RequestBody LoginRequest request) {
 
-        if (usuario == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("mensaje", "Correo o contraseña incorrectos"));
-        }
+    // 1. Intento login como Usuario APP
+    Usuario usuario = usuarioService.login(request.getCorreo(), request.getContrasena());
 
+    if (usuario != null) {
         Map<String, Object> claims = Map.of(
-                "idUsuario", usuario.getIdUsuario(),
-                "nombre", usuario.getNombre()
+            "idUsuario", usuario.getIdUsuario(),
+            "nombre", usuario.getNombre(),
+            "rol", "cliente"     // 🔥 Esto es importante
         );
 
         String token = jwtUtil.generarToken(usuario.getCorreo(), claims);
 
         return ResponseEntity.ok(Map.of(
-                "token", token,
-                "usuario", usuario
+            "token", token,
+            "usuario", Map.of(
+                "idUsuario", usuario.getIdUsuario(),
+                "nombre", usuario.getNombre(),
+                "correo", usuario.getCorreo(),
+                "rol", "cliente"
+            )
         ));
     }
+
+    // 2. Intento login como Empleado DELIVERY
+    var empleado = usuarioService.loginEmpleado(request.getCorreo(), request.getContrasena());
+
+    if (empleado != null) {
+        // Validar rol DELIVERY
+        if (!empleado.getRol().getRol().equalsIgnoreCase("DELIVERY")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("mensaje", "El empleado no tiene rol DELIVERY"));
+        }
+
+        Map<String, Object> claims = Map.of(
+            "idUsuario", empleado.getIdEmpleado(),
+            "nombre", empleado.getUsername(),
+            "rol", "delivery"
+        );
+
+        String token = jwtUtil.generarToken(empleado.getUsername(), claims);
+
+        return ResponseEntity.ok(Map.of(
+            "token", token,
+            "usuario", Map.of(
+                "idUsuario", empleado.getIdEmpleado(),
+                "nombre", empleado.getUsername(),
+                "correo", empleado.getUsername(),
+                "rol", "delivery"
+            )
+        ));
+    }
+
+    // 3. Si ninguno coincide
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .body(Map.of("mensaje", "Correo o contraseña incorrectos"));
+}
+
 
     @GetMapping("/perfil")
     public ResponseEntity<?> obtenerPerfil(@RequestParam String correo) {

@@ -7,4 +7,5 @@ import fullstack.demo.Entidad.Intranet.Empleado;
 
 public interface EmpleadoDAO extends JpaRepository <Empleado, Integer>{
     Optional<Empleado> findByUsername(String username);
+    Empleado findByUsernameAndContrasena(String username, String contrasena);
 }
