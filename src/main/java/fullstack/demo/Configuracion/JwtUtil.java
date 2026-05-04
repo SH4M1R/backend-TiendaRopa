@@ -14,7 +14,7 @@ import java.util.function.Function;
 public class JwtUtil {
 
     private static final String SECRET_KEY = "ClaveSuperSecretaDeJwtParaPeloteros2025ClaveSegura123456";
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 5; // 5 horas
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 5;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
